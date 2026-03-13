@@ -1,0 +1,10 @@
+# Secrets
+.env
+
+# Persistent Data
+n8n_data/
+postgres_data/
+uptime_data/
+
+# OS specific
+.DS_Store
