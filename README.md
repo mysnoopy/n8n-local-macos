@@ -1,4 +1,4 @@
-# **![][image1]**
+# **![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image1.png)**
 
 # **🚀 n8n Local PRO Stack**
 
@@ -99,49 +99,49 @@
 
 **Cloudflare Tunnel setup**  
 Log in to your Cloudflare account before setting up your new n8n tunnel. The script will pop up the following screen for Cloudflare tunnel setup.  
-![][image2]  
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2.png)  
 **Step 1**  
-![][image3]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image3.png)
 
 **Step 2**  
-![][image4]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image4.png)
 
 **Step 3**  
-![][image5]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image5.png)
 
 **Step 4**  
-![][image6]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image6.png)
 
 **Step 5**  
-![][image7]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image7.png)
 
 **Cloudflare tunnel setup completed.**  
-![][image8]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image8.png)
 
 **n8n account setup and license installation**  
 **Step 1: A free license and activation key will be sent to the email address you entered.**  
-![][image9]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image9.png)
 
 **Step 2: You can skip the question by clicking “Get started”.**  
-![][image10]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image10.png)
 
 **Step 3: Ensure your email address is correct.**  
-![][image11]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image11.png)
 
 **Step 4: The free license and activation key will be delivered to your email inbox.**  
-![][image12]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image12.png)
 
 **Step 5**  
-![][image13]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image13.png)
 
 **Step 6: Navigate to “Usage and plan” to enter your license key.**  
-![][image14]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image14.png)
 
 **Step 7**  
-![][image15]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image15.png)
 
 **Step 8: As soon as you enter the license key, your n8n will be activated as a community version with unlimited use.**  
-![][image16]
+![](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image16.png)
 
 **n8n community version activated.**  
 
