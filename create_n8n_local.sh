@@ -2,10 +2,45 @@
 
 clear
 echo "===================================================="
-echo "🚀 n8n PRO INSTALLER: DEEP CLEAN & SYNC"
+echo "🚀 n8n PRO INSTALLER: DEEP CLEAN & DEPENDENCY CHECK"
 echo "===================================================="
 
-# --- 0. DESTRUCTION WARNING & CONFIRMATION ---
+# --- 0. DEPENDENCY CHECK (Brew & Docker) ---
+echo "🔍 Checking system requirements..."
+
+# Check for Homebrew
+if ! command -v brew &> /dev/null; then
+    echo "🍺 Homebrew not found. Installing now..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # Add brew to path for the current session
+    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)"
+else
+    echo "✅ Homebrew is installed."
+fi
+
+# Check for Docker
+if ! command -v docker &> /dev/null; then
+    echo "🐳 Docker not found. Installing Docker Desktop via Brew..."
+    brew install --cask docker
+    echo "⚠️  Please open Docker from your Applications folder, complete the setup, and run this script again."
+    exit 1
+else
+    # Check if Docker Daemon is running
+    if ! docker info &> /dev/null; then
+        echo "⏳ Docker is installed but not running. Starting Docker..."
+        open --background -a Docker
+        echo "Waiting for Docker to start..."
+        until docker info &> /dev/null; do
+            printf "."
+            sleep 2
+        done
+        echo " Docker is ready!"
+    fi
+    echo "✅ Docker is installed and running."
+fi
+
+# --- 1. DESTRUCTION WARNING & CONFIRMATION ---
+echo ""
 echo "⚠️  WARNING: TARGETED WIPE DETECTED"
 echo "This script will force-delete n8n containers and local data."
 echo "----------------------------------------------------"
@@ -21,22 +56,21 @@ echo "🧹 Performing Deep Clean..."
 # 1. Force stop and remove specific containers by name
 docker rm -f n8n_app n8n_db uptime_kuma cloudflared_tunnel >/dev/null 2>&1
 
-# 2. Clean up networks and orphans in this directory
+# 2. Clean up networks and orphans
 docker compose down -v --remove-orphans >/dev/null 2>&1
-docker-compose down -v --remove-orphans >/dev/null 2>&1
 
 # 3. Wipe the actual data folders in the current directory
 rm -rf ./n8n_data ./postgres_data ./uptime_data ./.env ./docker-compose.yml
 
 echo "✅ Environment cleared."
 
-# --- 1. SYSTEM REPAIRS ---
+# --- 2. SYSTEM REPAIRS ---
 docker context use default >/dev/null 2>&1
 if [ -f ~/.docker/config.json ]; then
     sed -i '' 's/desktop//g' ~/.docker/config.json 2>/dev/null
 fi
 
-# --- 2. PRE-PLANNING ---
+# --- 3. PRE-PLANNING ---
 echo ""
 echo "📝 PRE-PLANNING:"
 read -p "🌐 What subdomain do you want? (e.g., 'n8n'): " MY_SUBDOMAIN
@@ -44,7 +78,7 @@ read -p "🏠 What is your domain? (e.g., 'yourdomain.com'): " MY_DOMAIN
 FULL_URL="https://${MY_SUBDOMAIN}.${MY_DOMAIN}"
 echo ""
 
-# --- 3. CLOUDFLARE UI STEPS (EXACT VERSION) ---
+# --- 4. CLOUDFLARE UI STEPS (EXACT VERSION) ---
 echo "☁️  STEP 1: CONFIGURE CLOUDFLARE"
 open "https://one.dash.cloudflare.com/"
 echo "----------------------------------------------------"
@@ -56,7 +90,7 @@ echo "2️⃣  (Select tunnel type): Click 'Cloudflared'."
 echo ""
 echo "3️⃣  (Name your tunnel): Type '${MY_SUBDOMAIN}-tunnel' -> Click 'Save tunnel'."
 echo ""
-echo "4️⃣  (Install and run connectors): Click 'Docker' -> 📋 CLICK THE COPY BUTTON next to the big box of code and paste it to Notepad you notpad -> Click 'Next'"
+echo "4️⃣  (Install and run connectors): Click 'Docker' -> 📋 CLICK THE COPY BUTTON next to the big box of code and paste it to Notepad -> Click 'Next'"
 echo ""
 echo "5️⃣  (Route tunnel): Click 'Next' and fill these boxes:"
 echo "   - Subdomain: ${MY_SUBDOMAIN}"
@@ -90,11 +124,11 @@ if [ -z "$TUNNEL_TOKEN" ]; then echo "❌ Token Error."; exit 1; fi
 
 read -p "🐘 Create a Database Password (letters/numbers only): " DB_PASSWORD
 
-# --- 4. DATA DIRECTORY SETUP ---
+# --- 5. DATA DIRECTORY SETUP ---
 mkdir -p ./n8n_data ./postgres_data ./uptime_data
 GEN_KEY=$(openssl rand -hex 16)
 
-# --- 5. DEPLOYMENT ---
+# --- 6. DEPLOYMENT ---
 cat <<EOF > .env
 DOMAIN_NAME=${MY_SUBDOMAIN}.${MY_DOMAIN}
 TUNNEL_TOKEN=${TUNNEL_TOKEN}
@@ -173,7 +207,7 @@ EOF
 echo "🏗️  Starting containers..."
 docker compose up -d --remove-orphans
 
-# --- 6. SMART ENDPOINT CHECK ---
+# --- 7. SMART ENDPOINT CHECK ---
 echo ""
 echo "⏳ Waiting for n8n to wake up at ${FULL_URL}..."
 until $(curl --output /dev/null --silent --head --fail "$FULL_URL"); do
@@ -181,7 +215,7 @@ until $(curl --output /dev/null --silent --head --fail "$FULL_URL"); do
     sleep 2
 done
 
-# --- 7. DESKTOP SHORTCUT ---
+# --- 8. DESKTOP SHORTCUT ---
 SHORTCUT_PATH="$HOME/Desktop/n8n-Status.webloc"
 {
 printf '<?xml version="1.0" encoding="UTF-8"?>
