@@ -2,37 +2,57 @@
 
 clear
 echo "===================================================="
-echo "🚀 n8n PRO INSTALLER: DEEP CLEAN & DEPENDENCY CHECK"
+echo "🚀 n8n PRO INSTALLER: TOTAL SYSTEM SETUP"
 echo "===================================================="
 
-# --- 0. DEPENDENCY CHECK (Brew & Docker) ---
+# --- 0. DEPENDENCY CHECK (Xcode, Brew & Docker) ---
 echo "🔍 Checking system requirements..."
 
-# Check for Homebrew
+# 1. Check for Xcode Command Line Tools
+if ! xcode-select -p &> /dev/null; then
+    echo "🛠️  Xcode Command Line Tools not found. Requesting installation..."
+    # Trigger the Apple installer popup
+    xcode-select --install
+    echo "----------------------------------------------------"
+    echo "⚠️  ACTION REQUIRED: A popup has appeared on your screen."
+    echo "Please click 'Install' and wait for it to finish."
+    echo "Once finished, run this script again."
+    echo "----------------------------------------------------"
+    exit 1
+else
+    echo "✅ Xcode Command Line Tools are installed."
+fi
+
+# 2. Check for Homebrew
 if ! command -v brew &> /dev/null; then
     echo "🍺 Homebrew not found. Installing now..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     # Add brew to path for the current session
-    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || eval "$(/usr/local/bin/brew shellenv)"
+    if [[ -f /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
 else
     echo "✅ Homebrew is installed."
 fi
 
-# Check for Docker
+# 3. Check for Docker
 if ! command -v docker &> /dev/null; then
     echo "🐳 Docker not found. Installing Docker Desktop via Brew..."
     brew install --cask docker
-    echo "⚠️  Please open Docker from your Applications folder, complete the setup, and run this script again."
+    echo "⚠️  Docker was installed. Please open 'Docker' from your Applications folder,"
+    echo "   complete the initial setup, and then run this script again."
     exit 1
 else
     # Check if Docker Daemon is running
     if ! docker info &> /dev/null; then
         echo "⏳ Docker is installed but not running. Starting Docker..."
         open --background -a Docker
-        echo "Waiting for Docker to start..."
+        echo "Waiting for Docker to start (this may take a minute)..."
         until docker info &> /dev/null; do
             printf "."
-            sleep 2
+            sleep 3
         done
         echo " Docker is ready!"
     fi
@@ -53,13 +73,13 @@ fi
 
 echo "🧹 Performing Deep Clean..."
 
-# 1. Force stop and remove specific containers by name
+# Force stop and remove specific containers by name
 docker rm -f n8n_app n8n_db uptime_kuma cloudflared_tunnel >/dev/null 2>&1
 
-# 2. Clean up networks and orphans
+# Clean up networks and orphans
 docker compose down -v --remove-orphans >/dev/null 2>&1
 
-# 3. Wipe the actual data folders in the current directory
+# Wipe the actual data folders in the current directory
 rm -rf ./n8n_data ./postgres_data ./uptime_data ./.env ./docker-compose.yml
 
 echo "✅ Environment cleared."
@@ -67,6 +87,7 @@ echo "✅ Environment cleared."
 # --- 2. SYSTEM REPAIRS ---
 docker context use default >/dev/null 2>&1
 if [ -f ~/.docker/config.json ]; then
+    # Fix for Docker Desktop context issues
     sed -i '' 's/desktop//g' ~/.docker/config.json 2>/dev/null
 fi
 
@@ -120,7 +141,7 @@ echo ""
 read -p "📋 Paste the ENTIRE Docker command from Cloudflare: " FULL_COMMAND
 TUNNEL_TOKEN=$(echo "$FULL_COMMAND" | sed -n 's/.*--token \([^ ]*\).*/\1/p')
 
-if [ -z "$TUNNEL_TOKEN" ]; then echo "❌ Token Error."; exit 1; fi
+if [ -z "$TUNNEL_TOKEN" ]; then echo "❌ Token Error. Could not extract token from command."; exit 1; fi
 
 read -p "🐘 Create a Database Password (letters/numbers only): " DB_PASSWORD
 
