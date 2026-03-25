@@ -42,7 +42,7 @@ The included installer script handles most dependencies automatically.
 Log in to your Cloudflare account before setting up your new n8n tunnel. The script will open the dashboard for you. Follow these visual steps:
 
 **Switch to Zero Trust Dashboard**   
-![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-1.png)  
+![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-1.png)   ![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-2.png)  
 
 **Step 0**  
 ![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-3.png)
