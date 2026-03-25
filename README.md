@@ -42,21 +42,28 @@ The included installer script handles most dependencies automatically.
 Log in to your Cloudflare account before setting up your new n8n tunnel. The script will open the dashboard for you. Follow these visual steps:
 
 **Switch to Zero Trust Dashboard**   
-![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-1.png)
+![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-1.png)  
+
 **Step 0**  
 ![Cloudflare Setup](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image2-3.png)
 
-**Step 1** ![Step 1](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image3.png)
+**Step 1**  
+![Step 1](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image3.png)
 
-**Step 2** ![Step 2](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image4.png)
+**Step 2**  
+![Step 2](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image4.png)
 
-**Step 3** ![Step 3](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image5.png)
+**Step 3**  
+![Step 3](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image5.png)
 
-**Step 4** ![Step 4](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image6.png)
+**Step 4**  
+![Step 4](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image6.png)
 
-**Step 5** ![Step 5](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image7.png)
+**Step 5**  
+![Step 5](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image7.png)
 
-**Cloudflare Tunnel Completed** ![Tunnel Done](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image8.png)
+**Cloudflare Tunnel Completed**  
+![Tunnel Done](https://github.com/mysnoopy/n8n-local-macos/blob/main/images/image8.png)
 
 ---
 
