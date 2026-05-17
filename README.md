@@ -1,6 +1,6 @@
 # 🚀 n8n Local PRO Stack for macOS
 
-A professional-grade, containerized n8n environment optimized for performance, security, and persistence. This setup is specifically designed to support **Octoix AI** and **Hire Chat** automation workflows on Apple Silicon (M1/M2/M3) or Intel Macs.
+A professional-grade, containerized n8n environment optimized for performance, security, and persistence. This setup is specifically designed to support automation workflows on Apple Silicon (M1/M2/M3) or Intel Macs.
 
 ---
 
